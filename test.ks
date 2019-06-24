@@ -2,6 +2,11 @@
 //@lazyglobal off
 
 clearscreen.
+local pitch_alt is 2000.
+local pitch_angle is 45.
+local t_apo is 80000.
+
+
 //local target_name is "Jane's Debris".
 //local target_vessel is vessel(target_name).
 //set target to target_vessel.
@@ -10,7 +15,8 @@ clearscreen.
 
 // launch
 //ship:sas off.
-local dir is up + R(0,0,180).
+//local dir is up + R(0,0,180).
+local dir is r(up:pitch,up:yaw,facing:roll).
 //lock steering to lookdirup(heading(90,90):vector, ship:facing:topvector).
 //lock steering to r(up:pitch,up:yaw,facing:roll).
 print "up: " + up.
@@ -18,6 +24,7 @@ lock steering to dir.
 lock throttle to 1.
 stage.
 
+//when 
 // TODO: vertical climb
 print "vertical climb".
 //SHIP:AIRSPEED
@@ -26,16 +33,16 @@ SET PID:MAXOUTPUT TO 1.
 SET PID:MINOUTPUT TO 0.
 SET PID:SETPOINT to 540.
 //lock PID:SETPOINT to 540.//ship:DYNAMICPRESSURE.
-lock throttle to pid:update(TIME:SECONDS, SHIP:AIRSPEED).
-wait UNTIL (ALTITUDE > 2000).
+//lock throttle to pid:update(TIME:SECONDS, SHIP:AIRSPEED).
+wait UNTIL (ALTITUDE > pitch_alt).
 
 // TODO: pitch over
 print "up: " + up.
 print "prograde: " + prograde.
 print "srfprograde: " + srfprograde.
-print "lock: " + (dir - R(0,10,0)).
-set dir to dir - R(0,10,0).
-UNTIL srfprograde:yaw < up:yaw-5
+print "lock: " + (dir - R(0,pitch_angle,0)).
+set dir to dir - R(0,pitch_angle,0).
+UNTIL srfprograde:yaw < up:yaw-pitch_angle
 {
 	//SET PID:SETPOINT to 540/ship:DYNAMICPRESSURE.
 	print "py: " + prograde:yaw at (0,10).
@@ -53,7 +60,16 @@ print "prograde: " + prograde.
 unlock steering.
 
 // TODO: raise apo
+wait until apoapsis > t_apo.
+lock throttle to 0.
 
 // TODO: circularize
+wait until ETA:APOAPSIS < 5.
+lock steering to prograde.
+lock throttle to 1.
+wait until periapsis > t_apo.
+lock throttle to 0.
 
-WAIT UNTIL false.
+unlock throttle.
+unlock steering.
+//WAIT UNTIL false.
