@@ -11,6 +11,8 @@ clearscreen.
 // launch
 //ship:sas off.
 local dir is up + R(0,0,180).
+//lock steering to lookdirup(heading(90,90):vector, ship:facing:topvector).
+//lock steering to r(up:pitch,up:yaw,facing:roll).
 print "up: " + up.
 lock steering to dir.
 lock throttle to 1.
