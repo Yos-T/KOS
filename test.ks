@@ -49,7 +49,7 @@ print "srfprograde: " + srfprograde.
 print "lock: " + (dir - R(0,pitch_angle,0)).
 set dir to dir - R(0,pitch_angle,0).
 //UNTIL srfprograde:yaw < up:yaw-pitch_angle
-UNTIL prograde:yaw >= up:yaw-pitch_angle
+UNTIL prograde:yaw <= up:yaw-pitch_angle
 {
 	//SET PID:SETPOINT to 540/ship:DYNAMICPRESSURE.
 	print "py: " + prograde:yaw at (0,10).
@@ -71,10 +71,18 @@ wait until obt:apoapsis > t_apo.
 lock throttle to 0.
 
 // TODO: circularize
-KUNIVERSE:TIMEWARP:WARPTO( time:seconds + ETA:APOAPSIS - 5 ).
-wait until ETA:APOAPSIS < 5.
+KUNIVERSE:TIMEWARP:WARPTO( time:seconds + ETA:APOAPSIS - 30 ).
+wait until ETA:APOAPSIS < 30.
+
+SET circPID TO PIDLOOP().
+SET circPID:MAXOUTPUT TO 1.
+SET circPID:MINOUTPUT TO 0.
+//SET circPID:SETPOINT to obt:period+15.
+SET circPID:SETPOINT to 30.
+
+
 lock steering to prograde.
-lock throttle to 1.
+lock throttle to circPID:update(time:second, ETA:APOAPSIS).
 wait until obt:apoapsis - obt:periapsis < 100.
 lock throttle to 0.
 
