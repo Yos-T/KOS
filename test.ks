@@ -24,7 +24,13 @@ lock steering to dir.
 lock throttle to 1.
 stage.
 
-//when 
+when (stage:ready and availablethrust = 0 )
+then
+{
+	stage.
+	return true.
+}
+
 // TODO: vertical climb
 print "vertical climb".
 //SHIP:AIRSPEED
@@ -42,13 +48,14 @@ print "prograde: " + prograde.
 print "srfprograde: " + srfprograde.
 print "lock: " + (dir - R(0,pitch_angle,0)).
 set dir to dir - R(0,pitch_angle,0).
-UNTIL srfprograde:yaw < up:yaw-pitch_angle
+//UNTIL srfprograde:yaw < up:yaw-pitch_angle
+UNTIL prograde:yaw >= up:yaw-pitch_angle
 {
 	//SET PID:SETPOINT to 540/ship:DYNAMICPRESSURE.
 	print "py: " + prograde:yaw at (0,10).
 	print "spy: " + srfprograde:yaw at (0,11).
 	print "uy: " + up:yaw at (0,12).
-	wait 10.
+	wait 0.
 }
 
 
@@ -60,14 +67,15 @@ print "prograde: " + prograde.
 unlock steering.
 
 // TODO: raise apo
-wait until apoapsis > t_apo.
+wait until obt:apoapsis > t_apo.
 lock throttle to 0.
 
 // TODO: circularize
+KUNIVERSE:TIMEWARP:WARPTO( time:seconds + ETA:APOAPSIS - 5 ).
 wait until ETA:APOAPSIS < 5.
 lock steering to prograde.
 lock throttle to 1.
-wait until periapsis > t_apo.
+wait until obt:apoapsis - obt:periapsis < 100.
 lock throttle to 0.
 
 unlock throttle.
