@@ -1,4 +1,42 @@
 // runpath("0:/test").
+
+// Exhaust Velocity:
+// Ve = Isp * g0
+// Where:
+// Ve : Exhaust Velocity in meters/second
+// Isp: The specific impulse in dimension of time
+// g0 : Standard gravity
+
+// Burn time:
+// Dt = (m0 * Ve / Ft) * (1 - e^(-Dv/Ve))
+// Where:
+// Dt: Length of burn in seconds
+// m0: Total mass of the rocket at the beginning of the burn
+// Ve: Exhaust Velocity in meters/second 
+// Ft : Thrust of the rocket in Newtons.
+// Dv: Delta-V of burn in meters/second.
+
+// Tsiolkovsky rocket equation:
+// Dv = Ve * ln( m0/ mf )
+// Where:
+// Dv: Delta-V of burn in meters/second.
+// Ve: Exhaust Velocity in meters/second
+// ln: Natural log
+// m0: Total mass of the rocket (wet mass)
+// mf: final total mass without propellant (dry mass)
+
+// Fuel consumption:
+// Isp = Ft/m
+// Where:
+// Isp: specific impulse in meters per second
+// Ft : thrust in newtons
+// m  : fuel consumption in kg/s
+
+// Multi engine Isp
+// Isp = sum(Ti) / sum(Ti/Ispi)
+// where 
+// Ti and Ispi are the thrust and Isp of each individual engine
+
 //@lazyglobal off
 
 clearscreen.
