@@ -40,10 +40,28 @@
 //@lazyglobal off
 
 clearscreen.
+
 local pitch_alt is 2000.
 local pitch_angle is 45.
 local t_apo is 80000.
 
+function splitStages
+{
+    local stages is lexicon().
+    parameter vessel.
+    LIST ENGINES IN engines.
+    for engine in ENGINES
+    {
+        if ( not stages:hasKey(engine:stage) )
+        {
+            set stages[engine:stage] to lexicon().
+            set stages[engine:stage]["engines"] to list().
+        }
+        stages[engine:stage]["engines"]:add(engine). 
+    }
+}
+
+splitStages(ship).
 
 //local target_name is "Jane's Debris".
 //local target_vessel is vessel(target_name).
