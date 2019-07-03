@@ -49,8 +49,8 @@ function splitStages
 {
     local stages is lexicon().
     parameter vessel.
-    LIST ENGINES IN engines.
-    for engine in ENGINES
+    list engines from vessel in engines.
+    for engine in engines
     {
         if ( not stages:hasKey(engine:stage) )
         {
