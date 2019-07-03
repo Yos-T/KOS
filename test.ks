@@ -47,21 +47,33 @@ local t_apo is 80000.
 
 function splitStages
 {
-    local stages is lexicon().
     parameter vessel.
-    list engines from vessel in engines.
+    local stages is lexicon().
+
+    list parts in parts.
+    for part in parts
+    {
+        if ( not stages:hasKey(part:stage) )
+        {
+            set stages[part:stage] to lexicon().
+            set stages[part:stage]["engines"] to list().
+            set stages[part:stage]["parts"] to list().
+        }
+        stages[part:stage]["parts"]:add(part).
+    }
+
+    //list engines from vessel in engines.
+    list engines in engines.
     for engine in engines
     {
-        if ( not stages:hasKey(engine:stage) )
-        {
-            set stages[engine:stage] to lexicon().
-            set stages[engine:stage]["engines"] to list().
-        }
         stages[engine:stage]["engines"]:add(engine). 
     }
+
+    return stages.
 }
 
-splitStages(ship).
+set stg to splitStages(ship).
+print stg.
 
 //local target_name is "Jane's Debris".
 //local target_vessel is vessel(target_name).
