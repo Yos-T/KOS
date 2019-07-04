@@ -37,7 +37,7 @@
 // where 
 // Ti and Ispi are the thrust and Isp of each individual engine
 
-//@lazyglobal off
+@lazyglobal off
 
 clearscreen.
 
