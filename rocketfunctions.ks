@@ -26,8 +26,8 @@ function enginesIsp
 // g0 : Standard gravity
 function exhaustVelocity
 {
-    parameter engines is list().
-    return enginesIsp( engines ) * constant:g0.
+    parameter Isp
+    return Isp * constant:g0.
 }
 
 // Burn time:
